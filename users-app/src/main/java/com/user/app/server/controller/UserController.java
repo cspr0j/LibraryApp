@@ -3,11 +3,9 @@ package com.user.app.server.controller;
 import com.user.app.server.filter.LoginValidator;
 import com.user.app.server.filter.UserRegistrationValidator;
 import com.user.app.server.model.User;
-import com.user.app.server.service.GetTokenService;
 import com.user.app.server.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,19 +13,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Controller
 @RequiredArgsConstructor

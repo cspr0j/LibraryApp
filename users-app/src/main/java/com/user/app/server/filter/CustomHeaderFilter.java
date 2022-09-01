@@ -2,7 +2,6 @@ package com.user.app.server.filter;
 
 import com.user.app.server.service.GetTokenService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;

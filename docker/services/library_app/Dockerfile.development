@@ -1,4 +1,0 @@
-FROM bellsoft/liberica-openjdk-alpine-musl:11.0.3
-WORKDIR /usr/local/app
-ADD LibraryMVC-0.0.1-SNAPSHOT.jar library-app.jar
-CMD java -jar ./library-app.jar
