@@ -38,22 +38,22 @@ public class SecurityConfig {
     protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests().antMatchers("/login", "/register", "/signin", "/index", "/").permitAll()
+                    .authorizeRequests().antMatchers("/login", "/register", "/signin", "/index", "/").permitAll()
                 .and()
-                .authorizeRequests()
-                .antMatchers("/users", "/api/users", "/api/users/save").hasAuthority("USER")
+                    .authorizeRequests()
+                    .antMatchers("/users", "/api/users", "/api/users/save").hasAuthority("USER")
                 .and()
-                .authorizeRequests().anyRequest().authenticated()
+                    .authorizeRequests().anyRequest().authenticated()
                 .and()
-                .logout().logoutUrl("/logout")
-                .logoutSuccessUrl("/login")
-                .deleteCookies("auth")
+                    .logout().logoutUrl("/logout")
+                    .logoutSuccessUrl("/login")
+                    .deleteCookies("auth")
                 .and()
-                .userDetailsService(detailsService)
-                .addFilter(new CustomAuthenticationFilter(tokenService, customAuthenticationProvider()))
-                .addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+                    .userDetailsService(detailsService)
+                    .addFilter(new CustomAuthenticationFilter(tokenService, customAuthenticationProvider()))
+                    .addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

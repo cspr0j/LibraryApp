@@ -17,20 +17,20 @@ public class SecurityConfig {
     protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests()
-                .antMatchers("/**").hasAuthority("USER")
+                    .authorizeRequests()
+                    .antMatchers("/**").hasAuthority("USER")
                 .and()
-                .authorizeRequests().antMatchers("/login").denyAll()
+                    .authorizeRequests().antMatchers("/login").denyAll()
                 .and()
-                .authorizeRequests().anyRequest().authenticated()
+                    .authorizeRequests().anyRequest().authenticated()
                 .and()
-                .logout().logoutUrl("/logout")
-                .logoutSuccessUrl("http://localhost:8085/logout")
-                .deleteCookies("auth")
+                    .logout().logoutUrl("/logout")
+                    .logoutSuccessUrl("http://localhost:8085/logout")
+                    .deleteCookies("auth")
                 .and()
-                .addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+                    .addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
