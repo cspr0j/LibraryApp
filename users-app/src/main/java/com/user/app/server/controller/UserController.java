@@ -7,6 +7,7 @@ import com.user.app.server.service.GetTokenService;
 import com.user.app.server.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,22 +15,25 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+
 @Controller
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
-
-    private final GetTokenService tokenService;
 
     @Autowired
     private UserRegistrationValidator userValidator;
@@ -49,7 +53,6 @@ public class UserController {
 
     @GetMapping("/users")
     public String getUsers() {
-//        return "home";
         return "redirect:http://localhost:8080/";
     }
 
@@ -64,29 +67,12 @@ public class UserController {
     }
 
     @PostMapping("/signin")
-    public String loginUser(HttpServletRequest request,
-                            HttpServletResponse response,
-                            @ModelAttribute("user") User user,
-                            BindingResult bindingResult) {
+    public String loginUser(@ModelAttribute("user") User user, BindingResult bindingResult) {
 
         loginValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
             return "login";
         }
-
-        userService.getUser(user.getUsername());
-
-        Map<String, String> tokens = tokenService.getTokens(request, user.getUsername(), user.getPassword());
-
-        Cookie cookie = new Cookie("auth", tokens.get("access_token"));
-        cookie.setPath("/");
-        cookie.setMaxAge(1800);
-        response.addCookie(cookie);
-
-//        Cookie cookie1 = new Cookie("refresh", tokens.get("refresh_token"));
-//        cookie1.setPath("/");
-//        cookie1.setMaxAge(43200);
-//        response.addCookie(cookie1);
 
         return "redirect:/users";
     }

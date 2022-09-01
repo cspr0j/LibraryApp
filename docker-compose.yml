@@ -4,7 +4,7 @@ services:
   postgres:
     container_name: postgres-service
     build:
-      context: services/postgres
+      context: .
       dockerfile: Dockerfile.development
     ports:
       - "5433:5432"
@@ -17,7 +17,7 @@ services:
   library_app:
     container_name: library-app
     build:
-      context: services/library_app
+      context: LibraryMVC
       dockerfile: Dockerfile.development
 
     environment:
@@ -33,7 +33,7 @@ services:
   users_app:
     container_name: users-app
     build:
-      context: services/users_app
+      context: docker
       dockerfile: Dockerfile.development
 
     environment:

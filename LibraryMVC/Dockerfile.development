@@ -1,0 +1,5 @@
+FROM bellsoft/liberica-openjdk-alpine-musl:11.0.3
+ARG JAR_FILE=target/LibraryMVC-0.0.1-SNAPSHOT.jar
+WORKDIR /usr/local/app
+COPY ${JAR_FILE} app.jar
+ENTRYPOINT ["java", "-jar", "./app.jar"]

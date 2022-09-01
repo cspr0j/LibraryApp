@@ -1,0 +1,5 @@
+FROM bellsoft/liberica-openjdk-alpine-musl:11.0.3
+ARG JAR_FILE=target/*.jar
+WORKDIR /usr/local/app
+COPY ${JAR_FILE} users-app.jar
+ENTRYPOINT ["java", "-jar", "users-app.jar"]

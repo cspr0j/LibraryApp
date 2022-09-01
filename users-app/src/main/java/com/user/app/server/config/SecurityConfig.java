@@ -2,6 +2,7 @@ package com.user.app.server.config;
 
 import com.user.app.server.filter.CustomAuthenticationFilter;
 import com.user.app.server.filter.CustomAuthorizationFilter;
+import com.user.app.server.filter.CustomHeaderFilter;
 import com.user.app.server.service.GetTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -27,7 +28,6 @@ public class SecurityConfig {
     private final GetTokenService tokenService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration auth) throws Exception {
         return auth.getAuthenticationManager();
@@ -36,6 +36,7 @@ public class SecurityConfig {
 
     @Bean
     protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
+
         http
                 .csrf().disable()
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -52,8 +53,10 @@ public class SecurityConfig {
                     .deleteCookies("auth")
                 .and()
                     .userDetailsService(detailsService)
-                    .addFilter(new CustomAuthenticationFilter(tokenService, customAuthenticationProvider()))
-                    .addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+                    .addFilterBefore(new CustomHeaderFilter(tokenService), UsernamePasswordAuthenticationFilter.class)
+                    .addFilterAt(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
+                    .addFilter(new CustomAuthenticationFilter(tokenService, customAuthenticationProvider()));
+
         return http.build();
     }
 

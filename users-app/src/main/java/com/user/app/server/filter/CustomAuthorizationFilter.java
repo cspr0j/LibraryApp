@@ -35,15 +35,13 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain)
             throws ServletException, IOException {
-        String header = request.getHeader(AUTHORIZATION);
 
-        Cookie[] cookies = request.getCookies();
-        if (request.getServletPath().equals("/users") && (cookies != null)) {
-            String[] info = stream(cookies).map(Cookie::getValue).toArray(String[]::new);
-            header = "Bearer " + info[0];
+        String header = null;
+        if (request.getServletPath().equals("/users")) {
+            header = request.getHeader(AUTHORIZATION);
         }
 
-        if (header != null /*&& header.startsWith("Bearer ")*/) {
+        if (header != null && header.startsWith("Bearer ")) {
             try {
                 String token = header.substring("Bearer ".length());
                 Algorithm algorithm = Algorithm.HMAC512("my_secret_key_10210_oqpowqkq192199qkkwoxa");
