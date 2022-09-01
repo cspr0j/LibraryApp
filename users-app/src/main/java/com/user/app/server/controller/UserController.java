@@ -77,7 +77,6 @@ public class UserController {
         userService.getUser(user.getUsername());
 
         Map<String, String> tokens = tokenService.getTokens(request, user.getUsername(), user.getPassword());
-        ;
 
         Cookie cookie = new Cookie("auth", tokens.get("access_token"));
         cookie.setPath("/");
