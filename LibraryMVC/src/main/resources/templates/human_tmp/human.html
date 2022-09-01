@@ -45,7 +45,7 @@
         </thead>
         <tbody>
         <tr th:each="human : ${listHuman}">
-            <td width="8%"><a class="btn btn-info" th:href="@{/human/info/{id}(id=${human.humanId})}">Info</a>
+            <td> <a class="btn btn-info" th:href="@{/human/info/{id}(id=${human.humanId})}">Info</a>
             <td th:text="${human.name}"></td>
             <td th:text="${human.lastName}"></td>
             <td th:text="${human.fatherName}"></td>
@@ -71,7 +71,7 @@
                     break;
                 }
             }
-            console.log(humanId);
+
             if (boolean === true) {
                 $("#myModal").modal('show');
             } else {
