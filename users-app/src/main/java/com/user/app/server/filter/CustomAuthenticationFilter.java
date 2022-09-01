@@ -23,7 +23,6 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     private final GetTokenService tokenService;
     private final AuthenticationProvider manager;
 
-
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException {
