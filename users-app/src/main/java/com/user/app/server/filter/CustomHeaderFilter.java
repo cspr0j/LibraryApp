@@ -32,21 +32,20 @@ public class CustomHeaderFilter implements Filter {
         HttpServletResponse resp =(HttpServletResponse) response;
 
         if (req.getServletPath().equals("/signin")) {
-            tokens = tokenService.getTokens(
-                    (HttpServletRequest) request,
-                    request.getParameter("username"),
-                    request.getParameter("password")
+            tokens = tokenService
+                        .getTokens(req, req.getParameter("username"), req.getParameter("password")
             );
         }
 
-        if (req.getServletPath().equals("/users")){
-            mutableRequest.putHeader(AUTHORIZATION, "Bearer " + tokens.get("access_token"));
+        if (req.getServletPath().equals("/users")) {
+            String value = "Bearer " + tokens.get("access_token");
+            mutableRequest.putHeader(AUTHORIZATION, value);
 
             Cookie cookies = new Cookie("auth", tokens.get("access_token"));
             cookies.setPath("/");
             cookies.setMaxAge(1800);
             resp.addCookie(cookies);
-            resp.setHeader(AUTHORIZATION, "Bearer " + tokens.get("access_token"));
+
         }
 
         chain.doFilter(mutableRequest, response);

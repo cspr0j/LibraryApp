@@ -33,7 +33,6 @@ class MutableHttpServletRequest extends HttpServletRequestWrapper {
         Set<String> set = new HashSet<>(customHeaders.keySet());
 
         // now add the headers from the wrapped request object
-        @SuppressWarnings("unchecked")
         Enumeration<String> e = ((HttpServletRequest) getRequest()).getHeaderNames();
         while (e.hasMoreElements()) {
             // add the names of the request headers into the list

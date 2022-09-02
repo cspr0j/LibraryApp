@@ -22,7 +22,7 @@ public class BookControllerApi {
     private HumanService humanService;
 
 
-    @GetMapping("/")
+    @GetMapping("")
     @Operation(description = "List of all Books")
     public List<Book> booksList() {
         return bookService.getAllBooks();

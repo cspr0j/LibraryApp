@@ -54,7 +54,7 @@ public class SecurityConfig {
                 .and()
                     .userDetailsService(detailsService)
                     .addFilterBefore(new CustomHeaderFilter(tokenService), UsernamePasswordAuthenticationFilter.class)
-                    .addFilterAt(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
+                    .addFilterAfter(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
                     .addFilter(new CustomAuthenticationFilter(tokenService, customAuthenticationProvider()));
 
         return http.build();

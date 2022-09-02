@@ -3,8 +3,8 @@ package com.user.app.server.service;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class GetTokenServiceImpl implements GetTokenService {
 
     private final PasswordEncoder passwordEncoder;
@@ -64,14 +65,12 @@ public class GetTokenServiceImpl implements GetTokenService {
     public Map<String, String> getTokens(HttpServletRequest request, String username, String password) {
         com.user.app.server.model.User myUser = userService.getUser(username);
 
-        boolean passwordMatches = passwordEncoder.matches(password, myUser.getPassword());
-        User user = (User) userDetailsService.loadUserByUsername(username);
-
-        if (username == null || password == null || !passwordMatches) {
-            throw new AuthenticationServiceException("Authentication error");
+        if (myUser == null || password == null || !passwordEncoder.matches(password, myUser.getPassword()) ) {
+            log.error("Error logging in: {} ", "Bad Credentials error");
+            return null;
         }
 
-
+        User user = (User) userDetailsService.loadUserByUsername(username);
         String accessToken = createToken(request, user);
 
         String refreshToken = createRefreshToken(request, user);

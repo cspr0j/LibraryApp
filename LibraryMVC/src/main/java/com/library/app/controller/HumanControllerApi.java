@@ -21,7 +21,7 @@ public class HumanControllerApi {
     private BookService bookService;
 
 
-    @GetMapping("/")
+    @GetMapping("")
     @Operation(description = "List of all Humans")
     public List<Human> humanList() {
         return humanService.getAllHumans();

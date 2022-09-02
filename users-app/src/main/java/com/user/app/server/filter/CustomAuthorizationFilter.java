@@ -28,17 +28,13 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
-
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain)
             throws ServletException, IOException {
 
-        String header = null;
-        if (request.getServletPath().equals("/users")) {
-            header = request.getHeader(AUTHORIZATION);
-        }
+        String header = request.getHeader(AUTHORIZATION);
 
         if (header != null && header.startsWith("Bearer ")) {
             try {
@@ -49,6 +45,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                 DecodedJWT decodedJWT = verifier.verify(token);
 
                 String username = decodedJWT.getSubject();
+
                 String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
 
                 Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
