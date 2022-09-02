@@ -6,6 +6,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.development
+    image: "postgres-service"
     ports:
       - "5433:5432"
     environment:

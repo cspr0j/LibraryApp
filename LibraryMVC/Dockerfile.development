@@ -1,5 +1,16 @@
-FROM bellsoft/liberica-openjdk-alpine-musl:11.0.3
-ARG JAR_FILE=target/LibraryMVC-0.0.1-SNAPSHOT.jar
-WORKDIR /usr/local/app
-COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java", "-jar", "./app.jar"]
+FROM maven:3.6.3 AS maven
+
+WORKDIR /usr/src/app
+COPY . /usr/src/app
+
+RUN mvn package
+
+FROM adoptopenjdk/openjdk11:alpine-jre
+
+ARG JAR_FILE=LibraryMVC.jar
+
+WORKDIR /opt/app
+
+COPY --from=maven /usr/src/app/target/${JAR_FILE} /opt/app/
+
+ENTRYPOINT ["java","-jar","LibraryMVC.jar"]
