@@ -34,7 +34,11 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain)
             throws ServletException, IOException {
 
-        String header = request.getHeader(AUTHORIZATION);
+        String header = "";
+
+        if (request.getServletPath().equals("/users")){
+            header = request.getHeader(AUTHORIZATION);
+        }
 
         if (header != null && header.startsWith("Bearer ")) {
             try {
