@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -66,8 +67,7 @@ public class GetTokenServiceImpl implements GetTokenService {
         com.user.app.server.model.User myUser = userService.getUser(username);
 
         if (myUser == null || password == null || !passwordEncoder.matches(password, myUser.getPassword()) ) {
-            log.error("Error logging in: {} ", "Bad Credentials error");
-            return null;
+            throw new BadCredentialsException("Bad Credentials!");
         }
 
         User user = (User) userDetailsService.loadUserByUsername(username);

@@ -33,8 +33,7 @@ public class CustomHeaderFilter implements Filter {
 
         if (req.getServletPath().equals("/signin")) {
             tokens = tokenService
-                        .getTokens(req, req.getParameter("username"), req.getParameter("password")
-            );
+                        .getTokens(req, req.getParameter("username"), req.getParameter("password"));
         }
 
         if (req.getServletPath().equals("/users")) {

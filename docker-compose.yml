@@ -8,7 +8,7 @@ services:
       dockerfile: Dockerfile.development
     image: "postgres-service"
     ports:
-      - "5433:5432"
+      - "5432:5432"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_DB=Library
