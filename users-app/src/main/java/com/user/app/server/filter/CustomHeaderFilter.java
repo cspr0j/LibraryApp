@@ -31,12 +31,12 @@ public class CustomHeaderFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp =(HttpServletResponse) response;
 
-        if (req.getServletPath().equals("/signin")) {
+        if (req.getServletPath().equals("/signin") && req.getCookies() == null) {
             tokens = tokenService
                         .getTokens(req, req.getParameter("username"), req.getParameter("password"));
         }
 
-        if (req.getServletPath().equals("/users")) {
+        if (req.getServletPath().equals("/users") && req.getCookies() != null) {
             String value = "Bearer " + tokens.get("access_token");
             mutableRequest.putHeader(AUTHORIZATION, value);
 
